@@ -1,33 +1,65 @@
 <template>
   <div class="col-lg-4 col-sm-6 mb-4">
-    <div class="card bg-dark mb-3">
+    <div
+      id="card"
+      class="card bg-dark mb-3"
+    >
       <img
+        v-if="item.Poster !== 'N/A'"
         :src="item.Poster"
         class="card-img-top"
         alt="Poster"
-      >
+      />
       <div class="card-body">
         <a :href="imdbLink">
-          <h5 class="card-title"> {{item.Title}} <span class="item-year"> (YEAR)</span></h5>
+          <h5 class="card-title">
+            {{ item.Title }} <span class="item-year"> ({{ item.Year }})</span>
+          </h5>
         </a>
-        <p>N IMDB votes</p>
+        <p>{{ item.imdbVotes }} IMDB votes</p>
         <div class="d-flex justify-content-center align-items-center text-center">
           <div class="d-flex flex-column">
-            <div class="row align-items-center mb-2">
-              <div class="col">
-                <img
-                  class="icon"
-                  src=""
-                  alt="Score logo"
-                >
-              </div>
-              <div class="col">
-                <span class="score">5</span>
-              </div>
+            <div class="col">
+              <img
+                class="icon"
+                src="../assets/img/score_logos/imdb.png"
+                alt="Score logo"
+              />
+            </div>
+            <div class="col">
+              <span class="score"> {{ item.imdbRating }} </span>
             </div>
           </div>
-          <!-- ${mcHTML}
-          ${rtHTML} -->
+          <div
+            v-if="item.Metascore !== 'N/A'"
+            class="d-flex flex-column"
+          >
+            <div class="col">
+              <img
+                class="icon"
+                src="../assets/img/score_logos/metacritic.png"
+                alt="Score logo"
+              />
+            </div>
+            <div class="col">
+              <span class="score"> {{ item.Metascore }} </span>
+            </div>
+          </div>
+          <div
+            v-if="rtScore !== 'N/A'"
+            class="d-flex flex-column"
+          >
+            <div class="col">
+              <img
+                class="icon"
+                src="../assets/img/score_logos/rotten_tomatoes.png"
+                alt="Score logo"
+              />
+            </div>
+            <div class="col">
+              <span class="score"> {{ item.Ratings[1].Value }} </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -37,20 +69,24 @@
 <script>
 export default {
   props: ['item'],
-  data() {
-    return {
-
-    }
-  },
   computed: {
     imdbLink() {
       return `https://www.imdb.com/title/${this.item.imdbID}`
+    },
+    rtScore() {
+      if (this.item.Ratings[1] !== undefined) {
+        return this.item.Ratings[1].Value
+      } else {
+        return 'N/A'
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+@import "~bootstrap/dist/css/bootstrap.css";
+
 * {
   font-family: "Roboto", sans-serif;
 }
@@ -85,5 +121,12 @@ a:hover {
   font-size: 1.75rem;
 }
 
-@import "~bootstrap/dist/css/bootstrap.css";
+#card {
+  box-shadow: 9px 9px 12px 5px rgba(0, 0, 0, 0.36);
+}
+
+#card:hover {
+  box-shadow: 4px 4px 4px 2px #fce30581;
+  transition: 0.2s;
+}
 </style>
