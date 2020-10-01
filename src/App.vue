@@ -5,13 +5,16 @@
   >
     <div class="container pt-5">
       <Searchbox @search="loadIds($event)"></Searchbox>
-      <div class="row card-group">
+      <transition-group
+        name="slide-fade"
+        class="row card-group"
+      >
         <Card
           v-for="item in sortedItems"
           :key="item.imdbID"
           :item="item"
         ></Card>
-      </div>
+      </transition-group>
 
       <div
         id="loading"
@@ -55,10 +58,12 @@ export default {
   methods: {
     loadIds(query) {
       // Display the loading animation for 1 second
-      if (this.items.length > 0) this.loading = true
-      setTimeout(() => {
-        this.loading = false
-      }, 1000)
+      this.loading = true
+      if (this.items.length > 0) {
+        setTimeout(() => {
+          this.loading = false
+        }, 2000)
+      }
 
       console.log(query)
       this.ids = []
@@ -107,17 +112,17 @@ export default {
 #background {
   background: #232526;
   min-height: 100vh;
+}
 
-  .slide-fade-enter-active {
-    transition: all 0.3s ease;
-  }
-  .slide-fade-leave-active {
-    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
-  }
-  .slide-fade-enter,
-  .slide-fade-leave-to {
-    transform: translateX(10px);
-    opacity: 0;
-  }
+.slide-fade-enter-active {
+  transition: all 0.6s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.4s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
 }
 </style>
