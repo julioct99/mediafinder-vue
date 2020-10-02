@@ -57,19 +57,17 @@ export default {
   },
   methods: {
     loadIds(query) {
-      // Display the loading animation for 1 second
+      // Display the loading animation for 2 seconds
       this.loading = true
-      if (this.items.length > 0) {
-        setTimeout(() => {
-          this.loading = false
-        }, 2000)
-      }
+      setTimeout(() => {
+        this.loading = false
+      }, 2000)
 
       console.log(query)
       this.ids = []
       this.items = []
       let page = 1
-      while (page < 4) {
+      while (page < 5) {
         axios
           .get(`http://www.omdbapi.com/?s=${query}&apikey=thewdb&page=${page}`)
           .then(res => {
@@ -99,9 +97,6 @@ export default {
         })
         .catch(err => console.log(err))
     }
-  },
-  created() {
-    this.loadIds(this.query)
   }
 }
 </script>
@@ -110,7 +105,7 @@ export default {
 @import "~bootstrap/dist/css/bootstrap.css";
 
 #background {
-  background: #232526;
+  background: #20201e;
   min-height: 100vh;
 }
 
