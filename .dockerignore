@@ -2,8 +2,14 @@ node_modules
 public
 src
 
+.git
+.gitignore
 .editorconfig
 .eslintrc.js
+
+*Dockerfile*
+*docker-compose*
+
 babel.config.js
 package-lock.json
 package.json
